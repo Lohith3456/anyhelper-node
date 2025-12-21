@@ -1,0 +1,20 @@
+{
+  "name": "anyhelper-backend",
+  "version": "1.0.0",
+  "description": "AnyHelper Connect Microservices Backend",
+  "private": true,
+  "workspaces": [
+    "services/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=services/user-service\" \"npm run dev --workspace=services/helper-service\" \"npm run dev --workspace=services/matching-service\" \"npm run dev --workspace=services/booking-service\" \"npm run dev --workspace=services/payment-service\" \"npm run dev --workspace=services/communication-service\" \"npm run dev --workspace=services/api-gateway\"",
+    "build": "npm run build --workspaces",
+    "install:all": "npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  }
+}
+

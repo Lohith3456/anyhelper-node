@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: ./services/api-gateway
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - USER_SERVICE_URL=http://user-service:3001
+      - HELPER_SERVICE_URL=http://helper-service:3002
+      - MATCHING_SERVICE_URL=http://matching-service:3003
+      - BOOKING_SERVICE_URL=http://booking-service:3004
+      - PAYMENT_SERVICE_URL=http://payment-service:3005
+      - COMMUNICATION_SERVICE_URL=http://communication-service:3006
+    depends_on:
+      - user-service
+      - helper-service
+      - matching-service
+      - booking-service
+      - payment-service
+      - communication-service
+
+  user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - JWT_SECRET=${JWT_SECRET:-your-secret-key}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-your-refresh-secret}
+
+  helper-service:
+    build:
+      context: ./services/helper-service
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+
+  matching-service:
+    build:
+      context: ./services/matching-service
+      dockerfile: Dockerfile
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3003
+      - HELPER_SERVICE_URL=http://helper-service:3002
+      - AI_SERVICE_URL=${AI_SERVICE_URL:-http://localhost:9002}
+
+  booking-service:
+    build:
+      context: ./services/booking-service
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
+      - HELPER_SERVICE_URL=http://helper-service:3002
+      - USER_SERVICE_URL=http://user-service:3001
+
+  payment-service:
+    build:
+      context: ./services/payment-service
+      dockerfile: Dockerfile
+    ports:
+      - "3005:3005"
+    environment:
+      - PORT=3005
+      - BOOKING_SERVICE_URL=http://booking-service:3004
+
+  communication-service:
+    build:
+      context: ./services/communication-service
+      dockerfile: Dockerfile
+    ports:
+      - "3006:3006"
+    environment:
+      - PORT=3006
+
