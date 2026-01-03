@@ -51,28 +51,6 @@ npm run dev
 
 ## Testing the API
 
-### Register a User
-```bash
-curl -X POST http://localhost:3000/api/auth/register \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "customer@example.com",
-    "password": "password123",
-    "name": "John Doe",
-    "role": "customer"
-  }'
-```
-
-### Login
-```bash
-curl -X POST http://localhost:3000/api/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{
-    "email": "customer@example.com",
-    "password": "password123"
-  }'
-```
-
 ### Create Helper Profile
 ```bash
 curl -X POST http://localhost:3000/api/helpers \

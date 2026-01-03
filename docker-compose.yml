@@ -32,6 +32,7 @@ services:
       - PORT=3001
       - JWT_SECRET=${JWT_SECRET:-your-secret-key}
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET:-your-refresh-secret}
+      - MONGODB_URI=${MONGODB_URI:-mongodb://mongo:27017/anyhelper}
 
   helper-service:
     build:
@@ -41,6 +42,17 @@ services:
       - "3002:3002"
     environment:
       - PORT=3002
+      - MONGODB_URI=${MONGODB_URI:-mongodb://mongo:27017/anyhelper}
+
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=anyhelper
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
 
   matching-service:
     build:
@@ -53,6 +65,8 @@ services:
       - HELPER_SERVICE_URL=http://helper-service:3002
       - AI_SERVICE_URL=${AI_SERVICE_URL:-http://localhost:9002}
 
+volumes:
+  mongo-data:
   booking-service:
     build:
       context: ./services/booking-service

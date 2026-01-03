@@ -26,11 +26,6 @@ app.get('/health/services', async (req, res) => {
 });
 
 // Proxy routes to microservices
-app.use('/api/auth', createProxyMiddleware({
-  target: process.env.USER_SERVICE_URL || 'http://localhost:3001',
-  changeOrigin: true,
-  pathRewrite: { '^/api/auth': '/api/auth' },
-}));
 
 app.use('/api/users', createProxyMiddleware({
   target: process.env.USER_SERVICE_URL || 'http://localhost:3001',

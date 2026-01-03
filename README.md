@@ -98,8 +98,6 @@ npm run dev
 ## API Endpoints
 
 ### User Service
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
 - `GET /api/users/:id` - Get user by ID
 - `PUT /api/users/:id` - Update user
 
